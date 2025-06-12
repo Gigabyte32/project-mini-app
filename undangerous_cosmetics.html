@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Безопасная косметика</title>
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        font-family: "SF Pro Text", "Helvetica", sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+        color: #131313;
+        background-color: #ffffff;
+        -webkit-font-smoothing: antialiased;
+        box-sizing: border-box;
+        height: 100%;
+      }
+
+      .container {
+        max-width: 393px;
+        margin: 0 auto;
+        padding: 16px;
+        padding-bottom: 80px; /* Добавлено для отступа от нижнего меню */
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 32px;
+      }
+
+      .header__title {
+        font-size: 32px;
+        font-weight: 500;
+        text-align: center;
+        flex-grow: 1;
+      }
+
+      .button-icon {
+        background: none;
+        border: none;
+        padding: 8px;
+        cursor: pointer;
+      }
+
+      .search-input {
+        display: flex;
+        align-items: center;
+        background-color: #fbfbfb;
+        border-radius: 12px;
+        padding: 12px 16px;
+        box-shadow: 0 0 16px rgba(11, 0, 0, 0.04);
+        margin-bottom: 24px;
+      }
+
+      .search-input__icon {
+        margin-right: 8px;
+      }
+
+      .search-input__field {
+        border: none;
+        background: none;
+        font-size: 14px;
+        color: #545454;
+        width: 100%;
+      }
+
+      .categories {
+        display: flex;
+        overflow-x: auto;
+        margin-bottom: 24px;
+        padding-bottom: 8px;
+      }
+
+      .category {
+        display: flex;
+        align-items: center;
+        background-color: #fbfbfb;
+        border: 1px solid #99bc2b;
+        border-radius: 24px;
+        padding: 4px 20px 4px 4px;
+        margin-right: 8px;
+        white-space: nowrap;
+      }
+
+      .category--active {
+        background-color: #d0f068;
+        border: none;
+      }
+
+      .category__image {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 4px;
+        object-fit: cover;
+      }
+
+      .category__name {
+        font-size: 16px;
+        color: #99bc2b;
+      }
+
+      .category--active .category__name {
+        color: #131313;
+      }
+
+      .results-count {
+        font-size: 14px;
+        color: #545454;
+        margin-bottom: 24px;
+      }
+
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+
+      .product-card {
+        background-color: #fbfbfb;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 0 16px rgba(11, 0, 0, 0.04);
+      }
+
+      .product-card__image-container {
+        position: relative;
+        padding-top: 100%;
+      }
+
+      .product-card__image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .product-card__favorite {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+
+      .product-card__content {
+        padding: 12px;
+      }
+
+      .product-card__category {
+        font-size: 14px;
+        color: #545454;
+        margin-bottom: 4px;
+      }
+
+      .product-card__name {
+        font-size: 16px;
+        font-weight: 400;
+        margin-bottom: 8px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .product-card__button {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #131313;
+        color: #fbfbfb;
+        border: none;
+        border-radius: 12px;
+        padding: 8px 12px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        width: 100%;
+      }
+
+      /* Стили для нижнего меню */
+      .tab-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px;
+        background-color: #fafafaa3;
+        border-radius: 32px;
+        position: fixed;
+        bottom: 16px;
+        left: 16px;
+        right: 16px;
+        z-index: 1000;
+        backdrop-filter: blur(10px);
+        max-width: 393px;
+        margin: 0 auto;
+      }
+
+      .tab-item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 12px;
+        border-radius: 999px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .tab-item:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+
+      .tab-item img {
+        width: 16px;
+        height: 16px;
+      }
+
+      .tab-item.active {
+        background-color: #a368f0; /* Фиолетовый цвет для активной кнопки */
+      }
+
+      .tab-item.active img {
+        filter: brightness(0) invert(1);
+      }
+
+      .spacer {
+        width: 36px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <a href="main.html" class="button-icon" aria-label="Назад">
+          <img src="img/backstep.png" alt="Назад" width="16" height="16" />
+      </a>
+        <h1 class="header__title">Безопасная косметика</h1>
+      </header>
+      <form class="search-input" role="search">
+        <img class="search-input__icon" src="img/search.png" alt="Поиск" width="16" height="16" />
+        <input class="search-input__field" type="search" placeholder="Поиск" aria-label="Поиск косметики" />
+      </form>
+      <nav class="categories" aria-label="Категории косметики">
+        <a href="#" class="category category--active">
+          <img class="category__image" src="img/ellipse-8-8.png" alt="" width="40" height="40" />
+          <span class="category__name">Крема</span>
+        </a>
+        <a href="#" class="category">
+          <img class="category__image" src="img/ellipse-8-7.png" alt="" width="40" height="40" />
+          <span class="category__name">Шампуни</span>
+        </a>
+        <a href="#" class="category">
+          <img class="category__image" src="img/ellipse-8.png" alt="" width="40" height="40" />
+          <span class="category__name">Помады</span>
+        </a>
+        <a href="#" class="category">
+          <img class="category__image" src="img/ellipse-8-9.png" alt="" width="40" height="40" />
+          <span class="category__name">Пудры</span>
+        </a>
+        <a href="#" class="category">
+          <img class="category__image" src="img/ellipse-8-4.png" alt="" width="40" height="40" />
+          <span class="category__name">Глиттеры</span>
+        </a>
+        <a href="#" class="category">
+          <img class="category__image" src="img/ellipse-8-5.png" alt="" width="40" height="40" />
+          <span class="category__name">Подводки</span>
+        </a>
+        <a href="#" class="category">
+          <img class="category__image" src="img/ellipse-8-2.png" alt="" width="40" height="40" />
+          <span class="category__name">Бронзеры</span>
+        </a>
+        <a href="#" class="category">
+          <img class="category__image" src="img/ellipse-8-6.png" alt="" width="40" height="40" />
+          <span class="category__name">Румяна</span>
+        </a>
+        <a href="#" class="category">
+          <img class="category__image" src="img/ellipse-8-3.png" alt="" width="40" height="40" />
+          <span class="category__name">Хайлайтеры</span>
+        </a>
+        <a href="#" class="category">
+          <img class="category__image" src="img/image.png" alt="" width="40" height="40" />
+          <span class="category__name">Тональные крема</span>
+        </a>
+      </nav>
+      <p class="results-count">Найдено 10 косметических средств</p>
+      <div class="product-grid">
+        <article class="product-card">
+          <div class="product-card__image-container">
+            <img class="product-card__image" src="path/to/product1-image.jpg" alt="LABORATORIUM Вишневый пирог" />
+            <button class="product-card__favorite" aria-label="Добавить в избранное">
+              <img src="img/heart.svg" alt="" width="16" height="16" />
+            </button>
+          </div>
+          <div class="product-card__content">
+            <p class="product-card__category">Крем для рук и тела</p>
+            <h2 class="product-card__name">LABORATORIUM Вишневый пирог</h2>
+            <button class="product-card__button">
+              Подробнее
+              <img src="img/nextstepwhite.png" alt="" width="16" height="16" />
+            </button>
+          </div>
+        </article>
+        <article class="product-card">
+          <div class="product-card__image-container">
+            <img class="product-card__image" src="path/to/product2-image.jpg" alt="The Act с витамином C" />
+            <button class="product-card__favorite" aria-label="Добавить в избранное">
+              <img src="img/heart.svg" alt="" width="16" height="16" />
+            </button>
+          </div>
+          <div class="product-card__content">
+            <p class="product-card__category">Крем для лица</p>
+            <h2 class="product-card__name">The Act с витамином C</h2>
+            <button class="product-card__button">
+              Подробнее
+              <img src="img/nextstepwhite.png" alt="" width="16" height="16" />
+            </button>
+          </div>
+        </article>
+        <article class="product-card">
+          <div class="product-card__image-container">
+            <img class="product-card__image" src="path/to/product3-image.jpg" alt="Comfort zone Tranquillity body" />
+            <button class="product-card__favorite" aria-label="Добавить в избранное">
+              <img src="img/heart.svg" alt="" width="16" height="16" />
+            </button>
+          </div>
+          <div class="product-card__content">
+            <p class="product-card__category">Крем для тела</p>
+            <h2 class="product-card__name">Comfort zone Tranquillity body</h2>
+            <button class="product-card__button">
+              Подробнее
+              <img src="img/nextstepwhite.png" alt="" width="16" height="16" />
+            </button>
+          </div>
+        </article>
+        <article class="product-card">
+          <div class="product-card__image-container">
+            <img class="product-card__image" src="path/to/product4-image.jpg" alt="ADELEIDE UREA 30%" />
+            <button class="product-card__favorite" aria-label="Добавить в избранное">
+              <img src="img/heart.svg" alt="" width="16" height="16" />
+            </button>
+          </div>
+          <div class="product-card__content">
+            <p class="product-card__category">Крем для рук</p>
+            <h2 class="product-card__name">ADELEIDE UREA 30%</h2>
+            <button class="product-card__button">
+              Подробнее
+              <img src="img/nextstepwhite.png" alt="" width="16" height="16" />
+            </button>
+          </div>
+        </article>
+        <article class="product-card">
+          <div class="product-card__image-container">
+            <img class="product-card__image" src="path/to/product5-image.jpg" alt="Holika Holika Aloe Waterproof Sun" />
+            <button class="product-card__favorite" aria-label="Добавить в избранное">
+              <img src="img/heart.svg" alt="" width="16" height="16" />
+            </button>
+          </div>
+          <div class="product-card__content">
+            <p class="product-card__category">Крем SPF 50+</p>
+            <h2 class="product-card__name">Holika Holika Aloe Waterproof Sun</h2>
+            <button class="product-card__button">
+              Подробнее
+              <img src="img/nextstepwhite.png" alt="" width="16" height="16" />
+            </button>
+          </div>
+        </article>
+        <article class="product-card">
+          <div class="product-card__image-container">
+            <img class="product-card__image" src="path/to/product6-image.jpg" alt="LABORATORIUM Кофе с пончиками" />
+            <button class="product-card__favorite" aria-label="Добавить в избранное">
+              <img src="img/heart.svg" alt="" width="16" height="16" />
+            </button>
+          </div>
+          <div class="product-card__content">
+            <p class="product-card__category">Крем для рук и тела</p>
+            <h2 class="product-card__name">LABORATORIUM Кофе с пончиками</h2>
+            <button class="product-card__button">
+              Подробнее
+              <img src="img/nextstepwhite.png" alt="" width="16" height="16" />
+            </button>
+          </div>
+        </article>
+        <article class="product-card">
+          <div class="product-card__image-container">
+            <img class="product-card__image" src="path/to/product7-image.jpg" alt="MIXIT Spa Rituals Coconut" />
+            <button class="product-card__favorite" aria-label="Добавить в избранное">
+              <img src="img/heart.svg" alt="" width="16" height="16" />
+            </button>
+          </div>
+          <div class="product-card__content">
+            <p class="product-card__category">Крем для тела</p>
+            <h2 class="product-card__name">MIXIT Spa Rituals Coconut</h2>
+            <button class="product-card__button">
+              Подробнее
+              <img src="img/nextstepwhite.png" alt="" width="16" height="16" />
+            </button>
+          </div>
+        </article>
+        <article class="product-card">
+          <div class="product-card__image-container">
+            <img
+              class="product-card__image"
+              src="path/to/product8-image.jpg"
+              alt="Frudia Avocado Greenery Relief Sun"
+            />
+            <button class="product-card__favorite" aria-label="Добавить в избранное">
+              <img src="img/heart.svg" alt="" width="16" height="16" />
+            </button>
+          </div>
+          <div class="product-card__content">
+            <p class="product-card__category">Крем SPF 50+</p>
+            <h2 class="product-card__name">Frudia Avocado Greenery Relief Sun</h2>
+            <button class="product-card__button">
+              Подробнее
+              <img src="img/nextstepwhite.png" alt="" width="16" height="16" />
+            </button>
+          </div>
+        </article>
+        <article class="product-card">
+          <div class="product-card__image-container">
+            <img class="product-card__image" src="path/to/product9-image.jpg" alt="DoctorProffi Cucumber eye" />
+            <button class="product-card__favorite" aria-label="Добавить в избранное">
+              <img src="img/heart.svg" alt="" width="16" height="16" />
+            </button>
+          </div>
+          <div class="product-card__content">
+            <p class="product-card__category">Крем для глаз</p>
+            <h2 class="product-card__name">DoctorProffi Cucumber eye</h2>
+            <button class="product-card__button">
+              Подробнее
+              <img src="img/nextstepwhite.png" alt="" width="16" height="16" />
+            </button>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- Нижнее меню с 5 кнопками -->
+    <nav class="tab-bar" role="navigation">
+      <a href="main.html" class="tab-item active" aria-label="Home">
+          <img src="img/main.png" alt="Главная" aria-hidden="true"/>
+      </a>
+      <span class="spacer"></span>
+  
+      <a href="experts.html" class="tab-item" aria-label="Chat">
+          <img src="img/chat.png" alt="Чат" aria-hidden="true"/>
+      </a>
+      <span class="spacer"></span>
+  
+      <a href="analyse.html" class="tab-item" aria-label="Analyse">
+          <img src="img/code.png" alt="Анализ" aria-hidden="true"/>
+      </a>
+      <span class="spacer"></span>
+  
+      <a href="favourites.html" class="tab-item" aria-label="Favorites">
+          <img src="img/favourite.png" alt="Избранное" aria-hidden="true"/>
+      </a>
+      <span class="spacer"></span>
+  
+      <a href="personal_account.html" class="tab-item" aria-label="Profile">
+          <img src="img/user.png" alt="Профиль" aria-hidden="true"/>
+      </a>
+    </nav>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        
+        // Перебираем все элементы меню
+        menuItems.forEach(item => {
+          // Получаем путь из атрибута href
+          const itemPage = item.getAttribute('href').split('/').pop();
+          
+          // Сравниваем с текущей страницей
+          if (itemPage === currentPage) {
+            item.classList.add('active');
+          } else {
+            item.classList.remove('active');
+          }
+        });
+
+        const getBasePage = (path) => {
+        return path.split('/').pop().toLowerCase().split('?')[0].split('#')[0];
+      };
+      
+      const currentPage = getBasePage(window.location.pathname);
+      const menuItems = document.querySelectorAll('.tab-item');
+      
+      menuItems.forEach(item => {
+        const href = item.getAttribute('href');
+        if (!href) return;
+        
+        const itemPage = getBasePage(href);
+        item.classList.toggle('active', itemPage === currentPage);
+      });
+      });
+    </script>
+  </body>
+</html>

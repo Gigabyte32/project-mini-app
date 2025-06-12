@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Поиск и фильтрация</title>
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: "SF Pro Text", Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+        color: #131313;
+        background-color: #fbfbfb;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 16px;
+      }
+      .block {
+        background-color: #f3f2f8;
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 20px;
+      }
+      .close-button {
+        float: right;
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+      .section-title {
+        font-size: 20px;
+        font-weight: 400;
+        margin-bottom: 16px;
+      }
+      .option-group {
+        margin-bottom: 20px;
+      }
+      .option {
+        display: flex;
+        align-items: center;
+        margin-bottom: 16px;
+      }
+      .radio-button,
+      .checkbox {
+        width: 24px;
+        height: 24px;
+        background-color: #fbfbfb;
+        border-radius: 12px;
+        box-shadow: 0 0 16px rgba(11, 0, 0, 0.04);
+        margin-right: 8px;
+        cursor: pointer;
+      }
+      .checkbox {
+        border-radius: 4px;
+      }
+      .option-label {
+        font-size: 14px;
+      }
+      .apply-button {
+        background-color: #131313;
+        color: #fbfbfb;
+        border: none;
+        border-radius: 12px;
+        padding: 8px 12px;
+        font-size: 16px;
+        font-weight: 500;
+        width: 100%;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <section class="block">
+        <button class="close-button" aria-label="Закрыть">
+          <img src="img/cross.svg" alt="Закрыть" width="16" height="16" />
+        </button>
+        <h2 class="section-title">Поиск по компонентам</h2>
+        <div class="option-group">
+          <div class="option">
+            <input type="radio" id="components-alphabetical" name="components-sort" class="radio-button" />
+            <label for="components-alphabetical" class="option-label">В алфавитном порядке</label>
+          </div>
+          <div class="option">
+            <input type="radio" id="components-safest" name="components-sort" class="radio-button" />
+            <label for="components-safest" class="option-label">Самые безопасные</label>
+          </div>
+          <div class="option">
+            <input type="radio" id="components-dangerous" name="components-sort" class="radio-button" />
+            <label for="components-dangerous" class="option-label">Самые опасные</label>
+          </div>
+        </div>
+        <h2 class="section-title">Поиск по брендам</h2>
+        <div class="option-group">
+          <div class="option">
+            <input type="radio" id="brands-alphabetical" name="brands-sort" class="radio-button" />
+            <label for="brands-alphabetical" class="option-label">В алфавитном порядке</label>
+          </div>
+          <div class="option">
+            <input type="radio" id="brands-safest" name="brands-sort" class="radio-button" />
+            <label for="brands-safest" class="option-label">Самые безопасные</label>
+          </div>
+          <div class="option">
+            <input type="radio" id="brands-dangerous" name="brands-sort" class="radio-button" />
+            <label for="brands-dangerous" class="option-label">Самые опасные</label>
+          </div>
+        </div>
+        <h2 class="section-title">Поиск по продукту</h2>
+        <div class="option-group">
+          <div class="option">
+            <input type="radio" id="products-alphabetical" name="products-sort" class="radio-button" />
+            <label for="products-alphabetical" class="option-label">В алфавитном порядке</label>
+          </div>
+          <div class="option">
+            <input type="radio" id="products-safest" name="products-sort" class="radio-button" />
+            <label for="products-safest" class="option-label">Самые безопасные</label>
+          </div>
+          <div class="option">
+            <input type="radio" id="products-dangerous" name="products-sort" class="radio-button" />
+            <label for="products-dangerous" class="option-label">Самые опасные</label>
+          </div>
+        </div>
+        <h2 class="section-title">Поиск по экспертам</h2>
+        <div class="option-group">
+          <div class="option">
+            <input type="checkbox" id="expert-dermatologist" class="checkbox" />
+            <label for="expert-dermatologist" class="option-label">Дерматолог</label>
+          </div>
+          <div class="option">
+            <input type="checkbox" id="expert-allergist" class="checkbox" />
+            <label for="expert-allergist" class="option-label">Аллерголог</label>
+          </div>
+          <div class="option">
+            <input type="checkbox" id="expert-cosmetologist" class="checkbox" />
+            <label for="expert-cosmetologist" class="option-label">Косметолог</label>
+          </div>
+        </div>
+        <button class="apply-button">Применить</button>
+      </section>
+    </div>
+  </body>
+</html>

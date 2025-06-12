@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Регистрация</title>
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: "SF Pro Text", "Helvetica", sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+        color: #131313;
+        -webkit-font-smoothing: antialiased;
+        box-sizing: border-box;
+      }
+
+      .container {
+        max-width: 361px;
+        margin: 0 auto;
+        padding: 16px;
+      }
+
+      .skip-button {
+        display: block;
+        margin-left: auto;
+        background: none;
+        border: none;
+        font-family: "SF Pro Text-Medium", Helvetica, sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        color: #131313;
+        cursor: pointer;
+      }
+
+      .main-content {
+        margin-top: 78px;
+        text-align: center;
+      }
+
+      h1 {
+        font-family: "SF Pro-Medium", Helvetica, sans-serif;
+        font-weight: 500;
+        font-size: 32px;
+        line-height: 40px;
+        margin-bottom: 12px;
+      }
+
+      .subtitle {
+        font-family: "SF Pro Text-Regular", Helvetica, sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 20px;
+        margin-bottom: 32px;
+      }
+
+      .input-field {
+        width: 100%;
+        height: 44px;
+        background-color: #fbfbfb;
+        border-radius: 12px;
+        box-shadow: 0px 0px 16px rgba(11, 0, 0, 0.04);
+        border: none;
+        padding: 12px 16px;
+        margin-bottom: 24px;
+        font-size: 16px;
+        color: #545454;
+      }
+
+      .checkbox-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 32px;
+      }
+
+      .checkbox {
+        width: 24px;
+        height: 24px;
+        background-color: #fbfbfb;
+        border-radius: 4px;
+        box-shadow: 0px 0px 16px rgba(11, 0, 0, 0.04);
+        margin-right: 8px;
+        cursor: pointer;
+      }
+
+      .checkbox-label {
+        font-size: 14px;
+        line-height: 20px;
+      }
+
+      .submit-button {
+        width: 100%;
+        padding: 16px 12px;
+        background-color: #adadad;
+        border: none;
+        border-radius: 12px;
+        font-family: "SF Pro Text-Medium", Helvetica, sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        color: #545454;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .social-login {
+        margin-top: 78px;
+        text-align: center;
+      }
+
+      .social-login-text {
+        font-size: 14px;
+        color: #545454;
+        margin-bottom: 16px;
+      }
+
+      .social-icons {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+      }
+
+      .social-icon {
+        width: 48px;
+        height: 48px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <button class="skip-button">Пропустить</button>
+      <main class="main-content">
+        <h1>Добро пожаловать!</h1>
+        <p class="subtitle">Введите свои данные для регистрации</p>
+        <form id="regForm" action="getcode.html" method="GET">
+          <input type="text" class="input-field" placeholder="Имя" required />
+          <input type="tel" class="input-field" placeholder="Номер телефона" required />
+          <div class="checkbox-container">
+            <input type="checkbox" id="consent" class="checkbox" required />
+            <label for="consent" class="checkbox-label">Даю согласие на обработку данных</label>
+          </div>
+          <button type="submit" class="submit-button">Получить код</button>
+        </form>
+      </main>
+      <div class="social-login">
+        <p class="social-login-text">Или войти через</p>
+        <div class="social-icons">
+          <img src="img/social-icons-2.svg" alt="Social Icon 1" class="social-icon" />
+          <img src="img/image.svg" alt="Social Icon 2" class="social-icon" />
+          <img src="img/social-icons.svg" alt="Social Icon 3" class="social-icon" />
+        </div>
+      </div>
+    </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const nameInput = document.querySelector('input[type="text"]');
+        const phoneInput = document.querySelector('input[type="tel"]');
+        const consentCheckbox = document.getElementById('consent');
+        const submitButton = document.querySelector('.submit-button');
+        // Исправляем селектор (убираем 'button' в конце)
+        const skipButton = document.querySelector('.skip-button'); 
+
+        function checkFields() {
+            const isFilled = nameInput.value.trim() !== '' && 
+                            phoneInput.value.trim() !== '' && 
+                            consentCheckbox.checked;
+
+            if (isFilled) {
+                submitButton.style.backgroundColor = '#131313';
+                submitButton.style.color = '#FFFFFF';
+            } else {
+                submitButton.style.backgroundColor = '#adadad';
+                submitButton.style.color = '#545454';
+            }
+        }
+  
+          // Обработчики для полей ввода
+          nameInput.addEventListener('input', checkFields);
+          phoneInput.addEventListener('input', checkFields);
+          consentCheckbox.addEventListener('change', checkFields);
+  
+          // Обработчик отправки формы
+          document.getElementById('regForm').addEventListener('submit', function(e) {
+              e.preventDefault();
+              if (nameInput.value.trim() && 
+                  phoneInput.value.trim() && 
+                  consentCheckbox.checked) {
+                  window.location.href = 'getcode.html';
+              }
+          });
+  
+          // Обработчик для кнопки "Пропустить"
+        skipButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = 'alergic.html';
+        });
+      });
+  </script>
+  </body>
+</html>

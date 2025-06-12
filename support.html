@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Справка и поддержка</title>
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        font-family: "SF Pro Text", Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+        color: #131313;
+        -webkit-font-smoothing: antialiased;
+        height: 100%;
+      }
+      .container {
+        max-width: 393px;
+        margin: 0 auto;
+        padding: 0 16px;
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 0;
+      }
+      .header__title {
+        font-size: 32px;
+        font-weight: 500;
+        text-align: center;
+        flex-grow: 1;
+      }
+      .button-icon {
+        background: none;
+        border: none;
+        padding: 8px;
+        cursor: pointer;
+        border-radius: 50%;
+      }
+      .section-title {
+        font-size: 20px;
+        font-weight: 400;
+        margin-bottom: 16px;
+      }
+      .faq-item {
+        background-color: #fbfbfb;
+        border-radius: 12px;
+        padding: 12px;
+        margin-bottom: 12px;
+        box-shadow: 0 0 16px rgba(11, 0, 0, 0.04);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .faq-item__question {
+        font-size: 20px;
+        font-weight: 400;
+        margin: 0;
+      }
+      .support-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+      }
+      .support-info__text {
+        font-size: 14px;
+        color: #545454;
+      }
+      .support-button {
+        background-color: #ffffff;
+        color: #131313;
+        border: 1px solid #131313;
+        border-radius: 12px;
+        padding: 16px 12px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        width: auto;
+        min-width: 120px;
+        text-align: center;
+        transition: all 0.3s ease;
+      }
+      
+      .support-button:hover {
+        background-color: #fbfbfb;
+      }
+      
+      .support-button:active {
+        background-color: #f0f0f0;
+      }
+
+      .button {
+        background-color: #131313;
+        color: #fbfbfb;
+        border: none;
+        border-radius: 12px;
+        padding: 16px 12px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        width: 100%;
+        text-align: center;
+      }
+      .form-group {
+        margin-bottom: 12px;
+      }
+      .form-label {
+        display: block;
+        margin-bottom: 8px;
+      }
+      .form-input {
+        width: 100%;
+        padding: 12px 16px;
+        border: none;
+        border-radius: 12px;
+        background-color: #fbfbfb;
+        box-shadow: 0 0 16px rgba(11, 0, 0, 0.04);
+        font-size: 16px;
+      }
+      .form-textarea {
+        width: 100%;
+        padding: 12px 16px;
+        border: none;
+        border-radius: 12px;
+        background-color: #fbfbfb;
+        box-shadow: 0 0 16px rgba(11, 0, 0, 0.04);
+        font-size: 14px;
+        resize: vertical;
+        min-height: 120px;
+      }
+
+      /* Стили для нижнего меню */
+      .tab-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px;
+        background-color: #fafafaa3;
+        border-radius: 32px;
+        position: fixed;
+        bottom: 16px;
+        left: 16px;
+        right: 16px;
+        z-index: 1000;
+        backdrop-filter: blur(10px);
+      }
+
+      .tab-item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 12px;
+        border-radius: 999px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .tab-item:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+
+      .tab-item img {
+        width: 16px;
+        height: 16px;
+      }
+
+      .tab-item.active {
+        background-color: #a368f0;
+      }
+
+      .tab-item.active img {
+        filter: brightness(0) invert(1);
+      }
+
+      .spacer {
+        width: 36px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+        <header class="header">
+            <a href="personal_account.html" class="button-icon" aria-label="Назад">
+                <img src="img/backstep.png" alt="Назад" width="16" height="16" />
+            </a>
+            <h1 class="header__title">Справка и поддержка</h1>
+        </header>
+      <main>
+        <section>
+          <h2 class="section-title">FAQ</h2>
+          <div class="faq-list">
+            <details class="faq-item">
+              <summary class="faq-item__question">Как проверить состав косметического средства?</summary>
+              <!-- Содержимое ответа -->
+            </details>
+            <details class="faq-item">
+              <summary class="faq-item__question">Что такое безопасность?</summary>
+              <!-- Содержимое ответа -->
+            </details>
+            <details class="faq-item">
+              <summary class="faq-item__question">Как добавить косметическое средство в избранное</summary>
+              <!-- Содержимое ответа -->
+            </details>
+          </div>
+        </section>
+        <section>
+          <h2 class="section-title">Политика конфиденциальности</h2>
+          <a href="#" class="faq-item">
+            Политика конфиденциальности
+            <img src="img/nextstep.png" alt="Открыть" width="16" height="16" />
+          </a>
+        </section>
+        <section>
+          <h2 class="section-title">Техподдержка</h2>
+          <div class="support-info">
+            <p class="support-info__text">С удовольствием поможем Вам с 8:00 до 18:00 (Мск)</p>
+            <button class="support-button">Позвонить</button>
+          </div>
+        </section>
+        <section>
+          <h2 class="section-title">Остались вопросы?</h2>
+          <p>
+            Если у вас возникли вопросы о работе нашего сервиса — напишите нам! Наша команда специалистов всегда рада
+            помочь.
+          </p>
+          <form>
+            <div class="form-group">
+              <label for="name" class="form-label">Как к вам обращаться?</label>
+              <input type="text" id="name" name="name" class="form-input" placeholder="Имя" required />
+            </div>
+            <div class="form-group">
+              <label for="phone" class="form-label">Номер телефона</label>
+              <input type="tel" id="phone" name="phone" class="form-input" placeholder="+7 999 999 99 99" required />
+            </div>
+            <div class="form-group">
+              <label for="question" class="form-label">Ваш вопрос</label>
+              <textarea
+                id="question"
+                name="question"
+                class="form-textarea"
+                placeholder="Вопросы, комментарии, предложения"
+                required
+              ></textarea>
+            </div>
+            <button type="submit" class="button">Отправить</button>
+          </form>
+        </section>
+      </main>
+    </div>
+    <!-- Нижнее меню с 5 кнопками -->
+    <nav class="tab-bar" role="navigation">
+        <a href="main.html" class="tab-item" aria-label="Home">
+            <img src="img/main.png" alt="Главная" aria-hidden="true"/>
+        </a>
+        <span class="spacer"></span>
+    
+        <a href="experts.html" class="tab-item" aria-label="Chat">
+            <img src="img/chat.png" alt="Чат" aria-hidden="true"/>
+        </a>
+        <span class="spacer"></span>
+    
+        <a href="analyse.html" class="tab-item" aria-label="Analyse">
+            <img src="img/code.png" alt="Анализ" aria-hidden="true"/>
+        </a>
+        <span class="spacer"></span>
+    
+        <a href="favourites.html" class="tab-item" aria-label="Favorites">
+            <img src="img/favourite.png" alt="Избранное" aria-hidden="true"/>
+        </a>
+        <span class="spacer"></span>
+    
+        <a href="personal_account.html" class="tab-item" aria-label="Profile">
+            <img src="img/user.png" alt="Профиль" aria-hidden="true"/>
+        </a>
+    </nav>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = window.location.pathname.split('/').pop();
+            const menuItems = document.querySelectorAll('.tab-item');
+            
+            // Определяем ключевые страницы для подсветки профиля
+            const profilePages = [
+                'personal_account.html',
+                'support.html'
+                // Можно добавить другие связанные страницы
+            ];
+    
+            menuItems.forEach(item => {
+                const itemPage = item.getAttribute('href').split('/').pop();
+                
+                if (itemPage === currentPage || 
+                    (profilePages.includes(currentPage) && itemPage === 'personal_account.html')) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        });
+    </script>
+  </body>
+</html>

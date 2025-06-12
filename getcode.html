@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Регистрация - Подтверждение кода</title>
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: "SF Pro Text", "Helvetica", sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+        color: #131313;
+        -webkit-font-smoothing: antialiased;
+        box-sizing: border-box;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 166px;
+      }
+
+      .back-button,
+      .skip-button {
+        background: none;
+        border: none;
+        font-family: "SF Pro Text-Medium", Helvetica, sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        color: #131313;
+        cursor: pointer;
+        padding: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .back-button {
+        display: flex;
+        align-items: center;
+        transition: opacity 0.3s ease;
+      }
+
+      .back-button:hover {
+        opacity: 0.7;
+    }
+
+      .back-button img {
+        width: 16px;
+        height: 16px;
+        margin-right: 8px;
+      }
+
+      .main-content {
+        text-align: center;
+        flex-grow: 1;
+      }
+
+      h1 {
+        font-family: "SF Pro-Medium", Helvetica, sans-serif;
+        font-weight: 500;
+        font-size: 32px;
+        line-height: 40px;
+        margin-bottom: 12px;
+        transition: all 0.3s ease;
+      }
+
+      p {
+        font-family: "SF Pro Text-Regular", Helvetica, sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 20px;
+        margin-bottom: 32px;
+      }
+
+      .sms-input {
+        width: 100%;
+        max-width: 361px;
+        height: 44px;
+        background-color: #fbfbfb;
+        border-radius: 12px;
+        box-shadow: 0px 0px 16px rgba(11, 0, 0, 0.04);
+        border: none;
+        padding: 12px 16px;
+        font-family: "SF Pro Text-Regular", Helvetica, sans-serif;
+        font-size: 16px;
+        color: #545454;
+        margin-bottom: 32px;
+      }
+
+      .button {
+        width: 100%;
+        padding: 16px 12px;
+        border-radius: 12px;
+        font-family: "SF Pro Text-Medium", Helvetica, sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 20px;
+        text-align: center;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      .primary-button {
+        background-color: #adadad;
+        color: #545454;
+        border: none;
+        margin-bottom: 16px;
+      }
+
+      .primary-button.active {
+        background-color: #131313;
+        color: #ffffff;
+      }
+
+      .secondary-button {
+        background-color: transparent;
+        color: #131313;
+        border: 1px solid #131313;
+        transition: opacity 0.3s ease;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <button class="back-button" onclick="goBack()">
+          <img src="img/backstep.png" alt="Назад" />
+          Назад
+        </button>
+        <button class="skip-button">Пропустить</button>
+      </header>
+      <main class="main-content">
+        <h1>Еще немного!</h1>
+        <p>Введите код из смс</p>
+        <input type="text" class="sms-input" placeholder="_ _ _ _" maxlength="4" aria-label="Введите код из СМС" />
+        <button class="button primary-button">Завершить регистрацию</button>
+        <button class="button secondary-button">Отправить код повторно</button>
+      </main>
+    </div>
+    <script>
+        // Функция для возврата с проверкой истории
+    function goBack() {
+        if (document.referrer.includes(window.location.hostname)) {
+            window.history.back();
+        } else {
+            window.location.href = 'registration.html';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const smsInput = document.querySelector('.sms-input');
+        const title = document.querySelector('h1');
+        const resendButton = document.querySelector('.secondary-button');
+        const skipButton = document.querySelector('.skip-button');
+        const submitButton = document.querySelector('.primary-button');
+
+        // Обработчик для кнопки "Пропустить"
+        skipButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = 'alergic.html';
+        });
+
+        smsInput.addEventListener('input', function() {
+            if (this.value.length === 4) {
+                title.textContent = 'Последний шаг!';
+                resendButton.style.display = 'none';
+                skipButton.style.display = 'none';
+                submitButton.classList.add('active'); // Добавляем класс active
+            } else {
+                title.textContent = 'Еще немного!';
+                resendButton.style.display = 'block';
+                skipButton.style.display = 'block';
+                submitButton.classList.remove('active'); // Удаляем класс active
+            }
+        });
+
+        submitButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (smsInput.value.length === 4) {
+                window.location.href = 'yourself.html';
+            }
+        });
+    });
+    </script>
+  </body>
+</html>

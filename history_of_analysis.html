@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>История анализа</title>
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        font-family: "SF Pro Text", "Helvetica", sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+        color: #131313;
+        background-color: #ffffff;
+        -webkit-font-smoothing: antialiased;
+        box-sizing: border-box;
+        height: 100%;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 16px;
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 32px;
+      }
+      .header__title {
+        font-family: "SF Pro-Medium", "Helvetica", sans-serif;
+        font-size: 32px;
+        font-weight: 500;
+        text-align: center;
+        flex: 1;
+      }
+      .button-icon {
+        background: none;
+        border: none;
+        padding: 8px;
+        cursor: pointer;
+        border-radius: 50%;
+      }
+      .button-icon:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+      .search-input {
+        display: flex;
+        align-items: center;
+        background-color: #fbfbfb;
+        border-radius: 12px;
+        padding: 12px 16px;
+        margin-bottom: 24px;
+        box-shadow: 0 0 16px rgba(11, 0, 0, 0.04);
+      }
+      .search-input__icon {
+        margin-right: 8px;
+      }
+      .search-input__field {
+        border: none;
+        background: none;
+        font-size: 14px;
+        color: #545454;
+        width: 100%;
+      }
+      .search-input__field::placeholder {
+        color: #545454;
+      }
+      .date-header {
+        font-size: 14px;
+        color: #545454;
+        margin-bottom: 16px;
+      }
+      .product-card {
+        background-color: #fbfbfb;
+        border-radius: 12px;
+        padding: 12px;
+        margin-bottom: 12px;
+        box-shadow: 0 0 16px rgba(11, 0, 0, 0.04);
+      }
+      .product-card__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 8px;
+      }
+      .product-card__title {
+        font-size: 14px;
+        color: #545454;
+        margin-bottom: 4px;
+      }
+      .product-card__name {
+        font-size: 16px;
+        color: #131313;
+        margin-bottom: 8px;
+      }
+      .product-card__tag {
+        display: inline-block;
+        background-color: #d0f068;
+        border-radius: 12px;
+        padding: 4px 12px;
+        font-size: 14px;
+        color: #131313;
+        margin-bottom: 8px;
+      }
+      .product-card__content {
+        display: flex;
+        margin-bottom: 8px;
+      }
+      .product-card__image {
+        width: 68px;
+        height: 68px;
+        object-fit: cover;
+        margin-right: 4px;
+      }
+      .product-card__description {
+        font-size: 14px;
+        color: #545454;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+      }
+      .product-card__button {
+        background-color: #131313;
+        color: #fbfbfb;
+        border: none;
+        border-radius: 12px;
+        padding: 8px 12px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: auto;
+      }
+      .product-card__button-icon {
+        margin-left: 8px;
+      }
+
+      .tab-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px;
+        background-color: #fafafaa3;
+        border-radius: 32px;
+        position: fixed;
+        bottom: 16px;
+        left: 16px;
+        right: 16px;
+        z-index: 1000;
+        backdrop-filter: blur(10px);
+      }
+
+      .tab-item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 12px;
+        border-radius: 999px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .tab-item:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+
+      .tab-item img {
+        width: 16px;
+        height: 16px;
+      }
+
+      .tab-item.active {
+        background-color: #a368f0;
+      }
+
+      .tab-item.active img {
+        filter: brightness(0) invert(1);
+      }
+
+      .spacer {
+        width: 36px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <a href="personal_account.html" class="button-icon" aria-label="Назад">
+            <img src="img/backstep.png" alt="Назад" width="16" height="16" />
+        </a>
+        <h1 class="header__title">История анализа</h1>
+      </header>
+      <form class="search-input" role="search">
+        <img class="search-input__icon" src="img/search.png" alt="Поиск" width="16" height="16" />
+        <input
+          class="search-input__field"
+          type="search"
+          placeholder="Поиск по истории анализа"
+          aria-label="Поиск по истории анализа"
+        />
+      </form>
+      <section>
+        <h2 class="date-header">24.02.2025</h2>
+        <article class="product-card" id="product-1">
+          <div class="product-card__header">
+            <div>
+              <h3 class="product-card__title">Крем для лица</h3>
+              <p class="product-card__name">The Act с витамином C</p>
+            </div>
+            <button class="button-icon delete-btn" aria-label="Удалить" data-id="1">
+              <img src="img/delete.png" alt="Удалить" width="16" height="16" />
+            </button>
+          </div>
+          <div class="product-card__tag">Безопасность: 89%</div>
+          <div class="product-card__content">
+            <img
+              class="product-card__image"
+              src="img/rectangle-7-2.png"
+              alt="The Act с витамином C"
+              width="68"
+              height="68"
+            />
+            <p class="product-card__description">
+              Aqua (Water), Caprylic/Capric Triglyceride, Cetearyl Olivate, Sorbitan Olivate, Coco-Caprylate/Caprate,
+              Glyceryl Stearate, Ethylhexyl Stearate, Simmondsia Chinensis (Jojoba) Seed Oil, Ascorbyl
+              Tetraisopalmitate, Glycerin, Ceramide NP, Ceramide AP, Ceramide EOP, Phytosphingosine, Cholesterol,
+              Trehalose, Persea Gratissima (Avocado) Fruit Extract, Rubus Chamaemorus (Cloudberry) Fruit Extract,
+              Centaurea Cyanus (Cornflower) Flower Extract, Citrus Sinensis (Orange) Peel Extract, Vitis Vinifera
+              (Grape) Seed Extract, Betaine, Allantoin, Linoleic Acid, Linolenic Acid, Rosmarinus Officinalis (Rosemary)
+              Extract, Tocopheryl Acetate, Retinyl Acetate, Sodium Acrylate/Sodium Acryloyldimethyl Taurate Copolymer,
+              Sodium Lauroyl Lactylate, Carbomer, Xanthan Gum, Phenoxyethanol, Ethylhexylglycerin, Fragrance, Citric
+              Acid, Tetrasodium Glutamate Diacetate.
+            </p>
+          </div>
+          <button class="product-card__button">
+            Результат анализа
+            <img class="product-card__button-icon" src="img/nextstepwhite.png" alt="Перейти" width="16" height="16" />
+          </button>
+        </article>
+      </section>
+      <section>
+        <h2 class="date-header">15.01.2025</h2>
+        <article class="product-card" id="product-2">
+          <div class="product-card__header">
+            <div>
+              <h3 class="product-card__title">Рассыпчатые румяна для лица</h3>
+              <p class="product-card__name">Belka mineral</p>
+            </div>
+            <button class="button-icon delete-btn" aria-label="Удалить" data-id="2">
+              <img src="img/delete.png" alt="Удалить" width="16" height="16" />
+            </button>
+          </div>
+          <div class="product-card__tag">Безопасность: 100%</div>
+          <div class="product-card__content">
+            <img class="product-card__image" src="img/image.png" alt="Belka mineral" width="68" height="68" />
+            <p class="product-card__description">
+              Mica, Boron Nitride, Magnesium Stearate, [+/- Iron Oxides (77492, 77491), Manganese Violet (77742),
+              Titanium Dioxide (77891), Carmine (75470)].
+            </p>
+          </div>
+          <button class="product-card__button">
+            Результат анализа
+            <img class="product-card__button-icon" src="img/nextstepwhite.png" alt="Перейти" width="16" height="16" />
+          </button>
+        </article>
+        <article class="product-card" id="product3">
+          <div class="product-card__header">
+            <div>
+              <h2 class="product-card__title">Тональная основа для лица</h2>
+              <p class="product-card__name">Artdeco Perfect matte serum foundation</p>
+            </div>
+            <button class="button-icon delete-btn" aria-label="Удалить из избранного" data-product-id="product3">
+              <img src="img/delete.png" alt="Удалить" />
+            </button>
+          </div>
+          <div class="product-card__tag">Безопасность: 68%</div>
+          <div class="product-card__content">
+            <img
+              class="product-card__image"
+              src="img/rectangle-7.png"
+              alt="Artdeco Perfect matte serum foundation"
+              width="68"
+              height="68"
+            />
+            <p class="product-card__description">
+              Aqua (water), dimethicone, trimethylsiloxysilicate, isohexadecane, synthetic fluorphlogopite, butylene
+              glycol, caprylyl dimethicone ethoxy glucoside, methyl trimethicone, sorbitan isostearate, vinyl
+              dimethicone/methicone silsesquioxane crosspolymer, polysilicone-11, aluminum/magnesium hydroxide stearate,
+              sodium chloride, phenoxyethanol, caprylic/capric triglyceride, glycerin, potassium sorbate, sodium
+              dehydroacetate, tocopheryl acetate, parfum (fragrance), lauryl dimethicone, phytic acid, solanum melongena
+              (eggplant) fruit extract, rosa hybrid flower extract, geraniol, methyl benzoate, citral, benzyl
+              salicylate, benzyl benzoate, linalool, benzyl alcohol, citronellol, hydroxycitronellal, ci 77491 (iron
+              oxides), ci 77492 (iron oxides), ci 77499 (iron oxides), ci 77891 (titanium dioxide).
+            </p>
+          </div>
+          <button class="product-card__button">
+            Результат анализа
+            <img class="product-card__button-icon" src="img/nextstepwhite.png" alt="Перейти" width="16" height="16" />
+          </button>
+        </article>
+      </section>
+    </div>
+    <!-- Нижнее меню с 5 кнопками -->
+    <nav class="tab-bar" role="navigation">
+        <a href="main.html" class="tab-item" aria-label="Home">
+            <img src="img/main.png" alt="Главная" aria-hidden="true"/>
+        </a>
+        <span class="spacer"></span>
+    
+        <a href="experts.html" class="tab-item" aria-label="Chat">
+            <img src="img/chat.png" alt="Чат" aria-hidden="true"/>
+        </a>
+        <span class="spacer"></span>
+    
+        <a href="analyse.html" class="tab-item" aria-label="Analyse">
+            <img src="img/code.png" alt="Анализ" aria-hidden="true"/>
+        </a>
+        <span class="spacer"></span>
+    
+        <a href="favourites.html" class="tab-item" aria-label="Favorites">
+            <img src="img/favourite.png" alt="Избранное" aria-hidden="true"/>
+        </a>
+        <span class="spacer"></span>
+    
+        <a href="personal_account.html" class="tab-item" aria-label="Profile">
+            <img src="img/user.png" alt="Профиль" aria-hidden="true"/>
+        </a>
+    </nav>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Обработчики для кнопок удаления
+        document.querySelectorAll('.delete-btn').forEach(button => {
+          button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const productId = this.getAttribute('data-id') || this.getAttribute('data-product-id');
+            const productCard = this.closest('.product-card');
+            
+            // Анимация удаления
+            productCard.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            productCard.style.opacity = '0';
+            productCard.style.transform = 'translateX(100%)';
+            
+            // Удаление после завершения анимации
+            setTimeout(() => {
+              productCard.remove();
+              updateEmptyState();
+            }, 300);
+          });
+        });
+    
+        // Подсветка активного пункта меню (последняя кнопка - Профиль)
+        const menuItems = document.querySelectorAll('.tab-item');
+        // Находим последний элемент меню (Профиль)
+        const lastMenuItem = menuItems[menuItems.length - 1];
+        lastMenuItem.classList.add('active');
+        
+        // Убираем активность у остальных пунктов
+        menuItems.forEach((item, index) => {
+          if (index !== menuItems.length - 1) {
+            item.classList.remove('active');
+          }
+        });
+    
+        // Функция для проверки пустого состояния
+        function updateEmptyState() {
+          const sections = document.querySelectorAll('section');
+          let isEmpty = true;
+          
+          sections.forEach(section => {
+            if (section.querySelector('.product-card')) {
+              isEmpty = false;
+            } else {
+              const dateHeader = section.querySelector('.date-header');
+              if (dateHeader) dateHeader.remove();
+            }
+          });
+          
+          if (isEmpty) {
+            const container = document.querySelector('.container');
+            const emptyMessage = document.createElement('p');
+            emptyMessage.style.textAlign = 'center';
+            emptyMessage.style.color = '#545454';
+            emptyMessage.style.marginTop = '40px';
+            emptyMessage.textContent = 'Ваша история анализа пуста';
+            container.appendChild(emptyMessage);
+          }
+        }
+      });
+    
+      // Функция для отправки запроса на сервер (пример)
+      function removeFromHistory(productId) {
+        fetch('/api/history/remove', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ productId: productId })
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Удалено из истории:', data);
+        })
+        .catch(error => {
+          console.error('Ошибка:', error);
+        });
+      }
+    </script>
+  </body>
+</html>
