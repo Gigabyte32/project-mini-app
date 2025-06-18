@@ -6,27 +6,36 @@
     <meta name="format-detection" content="telephone=no">
     <title>Косметический анализатор</title>
     <style>
-      body, html {
-            margin: 0;
-            padding: 0;
-            font-family: "SF Pro Text", Helvetica, Arial, sans-serif;
-            font-size: 16px;
-            line-height: 1.5;
-            color: #131313;
-            -webkit-font-smoothing: antialiased;
-            height: 100%;
-            background: url('img/background.jpg') no-repeat center center fixed;
-            background-size: cover;
-        }
+      html {
+        height: 100%;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
 
-      /* Убираем белый фон у контейнера */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 16px;
-            position: relative;
-            min-height: 100vh;
-        }
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "SF Pro Text", Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+        color: #131313;
+        -webkit-font-smoothing: antialiased;
+        min-height: 100vh;
+        background: url('img/background.jpg') no-repeat center center fixed;
+        background-size: cover;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 16px;
+        position: relative;
+        flex: 1;
+        width: 100%;
+        padding-bottom: 100px; /* Для нижнего меню */
+      }
 
       /* Остальные стили остаются без изменений */
       .containertab {
@@ -556,28 +565,27 @@
           }
         });
 
-        // Оптимизация для Telegram WebView
-        if (window.Telegram && window.Telegram.WebApp) {
-          // Запрещаем масштабирование
-          window.Telegram.WebApp.enableClosingConfirmation();
-          window.Telegram.WebApp.expand();
+        // Фикс для скролла в Telegram
+        if (window.Telegram?.WebApp) {
+          Telegram.WebApp.expand();
+          Telegram.WebApp.enableClosingConfirmation();
           
-          // Устанавливаем цвет фона
-          window.Telegram.WebApp.setBackgroundColor('#ffffff');
-          
-          // Оптимизация для iOS
+          // Особый фикс для iOS
           if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
             document.documentElement.style.height = '100%';
             document.body.style.height = '100%';
-            document.body.style.overflow = 'hidden';
+            document.body.style.overflowY = 'scroll';
+            document.documentElement.style.overflowY = 'scroll';
           }
         }
+
+        // Гарантируем минимальную высоту для скролла
+        setTimeout(function() {
+          if (document.body.scrollHeight <= window.innerHeight) {
+            document.body.style.minHeight = (window.innerHeight + 200) + 'px';
+          }
+        }, 300);
       });
-      
-      // Предотвращаем масштабирование на iOS
-      document.addEventListener('touchmove', function (event) {
-        if (event.scale !== 1) { event.preventDefault(); }
-      }, { passive: false });
     </script>
   </body>
 </html>
