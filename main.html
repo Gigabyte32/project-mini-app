@@ -6,41 +6,42 @@
     <meta name="format-detection" content="telephone=no">
     <title>Косметический анализатор</title>
     <style>
-      body, html {
-            margin: 0;
-            padding: 0;
-            font-family: "SF Pro Text", Helvetica, Arial, sans-serif;
-            font-size: 16px;
-            line-height: 1.5;
-            color: #131313;
-            -webkit-font-smoothing: antialiased;
-            /* Убрано фиксированное позиционирование фона */
-            background: url('img/background.jpg') no-repeat center center;
-            background-size: cover;
-            /* Разрешаем скролл */
-            overflow-x: hidden;
-            height: auto;
-            min-height: 100%;
-        }
-
-      /* Убираем белый фон у контейнера */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 16px;
-            position: relative;
-            /* Исправлено: убрана фиксированная высота */
-            min-height: 100%;
-            /* Добавлен отступ для нижнего меню */
-            padding-bottom: 100px;
-            /* Разрешаем контейнеру растягиваться */
-            display: block;
-        }
-
-        .scrollable-content {
+      html {
+        height: 100%;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+        font-family: "SF Pro Text", Helvetica, Arial, sans-serif;
+        position: relative;
+        overflow-x: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
         height: 100%;
+        background: url('img/background.jpg') no-repeat center center;
+        background-size: cover;
+        z-index: -1;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 16px 100px;
+        position: relative;
+        flex: 1;
+        width: 100%;
       }
       /* Остальные стили остаются без изменений */
       .containertab {
@@ -528,41 +529,32 @@
     <script>
       // Инициализация Telegram Mini Apps
       document.addEventListener('DOMContentLoaded', function() {
-        // Обработчик для заголовка "Безопасная косметика"
+        // Обработчики событий (ваши существующие обработчики)
         document.getElementById('safeCosmeticsTitle').addEventListener('click', function() {
           window.location.href = 'undangerous_cosmetics.html';
         });
 
-        // Обработчик для кнопки фильтров
         document.getElementById('filterButton').addEventListener('click', function(e) {
           e.preventDefault();
           window.location.href = 'search.html';
         });
 
-        // Обработчик для кнопки "Консультация у экспертов"
         document.getElementById('expertConsultation').addEventListener('click', function(e) {
           e.preventDefault();
           window.location.href = 'experts.html';
         });
 
-        // Обработчик для кнопки "Избранное"
         document.getElementById('favoritesCard').addEventListener('click', function(e) {
           e.preventDefault();
           window.location.href = 'favourites.html';
         });
 
-        // Получаем текущий путь страницы
+        // Настройка активного пункта меню
         const currentPage = window.location.pathname.split('/').pop();
-        
-        // Находим все элементы меню
         const menuItems = document.querySelectorAll('.tab-item');
         
-        // Перебираем все элементы меню
         menuItems.forEach(item => {
-          // Получаем путь из атрибута href
           const itemPage = item.getAttribute('href').split('/').pop();
-          
-          // Сравниваем с текущей страницей
           if (itemPage === currentPage) {
             item.classList.add('active');
           } else {
@@ -572,26 +564,48 @@
 
         // Оптимизация для Telegram WebView
         if (window.Telegram && window.Telegram.WebApp) {
-          // Запрещаем масштабирование
-          window.Telegram.WebApp.enableClosingConfirmation();
-          window.Telegram.WebApp.expand();
+          // Основные настройки WebApp
+          Telegram.WebApp.enableClosingConfirmation();
+          Telegram.WebApp.expand();
+          
+          // Фиксы для скроллинга
+          enableSmoothScrolling();
           
           // Устанавливаем цвет фона
-          window.Telegram.WebApp.setBackgroundColor('#ffffff');
+          Telegram.WebApp.setBackgroundColor('#ffffff');
           
           // Оптимизация для iOS
           if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
             document.documentElement.style.height = '100%';
             document.body.style.height = '100%';
-            document.body.style.overflow = 'hidden';
           }
         }
+
+        // Функция для включения плавного скроллинга
+        function enableSmoothScrolling() {
+          // Для обычных браузеров
+          document.body.style.overflowY = 'auto';
+          document.documentElement.style.overflowY = 'auto';
+          
+          // Для iOS
+          document.body.style.webkitOverflowScrolling = 'touch';
+          document.documentElement.style.webkitOverflowScrolling = 'touch';
+          
+          // Гарантируем, что контейнер можно скроллить
+          const container = document.querySelector('.container');
+          if (container) {
+            container.style.overflowY = 'auto';
+            container.style.webkitOverflowScrolling = 'touch';
+          }
+        }
+
+        // Предотвращаем масштабирование на iOS
+        document.addEventListener('touchmove', function(event) {
+          if (event.scale !== 1) { 
+            event.preventDefault(); 
+          }
+        }, { passive: false });
       });
-      
-      // Предотвращаем масштабирование на iOS
-      document.addEventListener('touchmove', function (event) {
-        if (event.scale !== 1) { event.preventDefault(); }
-      }, { passive: false });
     </script>
   </body>
 </html>
