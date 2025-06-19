@@ -521,71 +521,84 @@
       </a>
   </nav>
     <script>
-      // Инициализация Telegram Mini Apps
-      document.addEventListener('DOMContentLoaded', function() {
-        // Обработчик для заголовка "Безопасная косметика"
-        document.getElementById('safeCosmeticsTitle').addEventListener('click', function() {
-          window.location.href = 'undangerous_cosmetics.html';
-        });
+  // Функция для обновления имени из других окон
+  window.updateUserName = function(newName) {
+    const profileNameElement = document.querySelector('.profile-name');
+    if (profileNameElement) {
+      profileNameElement.textContent = `Привет, ${newName}!`;
+    }
+  };
 
-        // Обработчик для кнопки фильтров
-        document.getElementById('filterButton').addEventListener('click', function(e) {
-          e.preventDefault();
-          window.location.href = 'search.html';
-        });
+  document.addEventListener('DOMContentLoaded', function() {
+    // Проверяем, прошел ли пользователь регистрацию
+    if (!localStorage.getItem('userName')) {
+      window.location.href = 'registration.html';
+      return;
+    }
 
-        // Обработчик для кнопки "Консультация у экспертов"
-        document.getElementById('expertConsultation').addEventListener('click', function(e) {
-          e.preventDefault();
-          window.location.href = 'experts.html';
-        });
+    // Устанавливаем данные пользователя
+    const userName = localStorage.getItem('userName') || 'Гость';
+    const profileNameElement = document.querySelector('.profile-name');
+    if (profileNameElement) {
+      profileNameElement.textContent = `Привет, ${userName}!`;
+    }
 
-        // Обработчик для кнопки "Избранное"
-        document.getElementById('favoritesCard').addEventListener('click', function(e) {
-          e.preventDefault();
-          window.location.href = 'favourites.html';
-        });
+    // Обработчик для заголовка "Безопасная косметика"
+    document.getElementById('safeCosmeticsTitle').addEventListener('click', function() {
+      window.location.href = 'undangerous_cosmetics.html';
+    });
 
-        // Получаем текущий путь страницы
-        const currentPage = window.location.pathname.split('/').pop();
-        
-        // Находим все элементы меню
-        const menuItems = document.querySelectorAll('.tab-item');
-        
-        // Перебираем все элементы меню
-        menuItems.forEach(item => {
-          // Получаем путь из атрибута href
-          const itemPage = item.getAttribute('href').split('/').pop();
-          
-          // Сравниваем с текущей страницей
-          if (itemPage === currentPage) {
-            item.classList.add('active');
-          } else {
-            item.classList.remove('active');
-          }
-        });
+    // Обработчик для кнопки фильтров
+    document.getElementById('filterButton').addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = 'search.html';
+    });
 
-        // Фикс для скролла в Telegram
-        if (window.Telegram?.WebApp) {
-          Telegram.WebApp.expand();
-          Telegram.WebApp.enableClosingConfirmation();
-          
-          // Особый фикс для iOS
-          if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-            document.documentElement.style.height = '100%';
-            document.body.style.height = '100%';
-            document.body.style.overflowY = 'scroll';
-            document.documentElement.style.overflowY = 'scroll';
-          }
-        }
+    // Обработчик для кнопки "Консультация у экспертов"
+    document.getElementById('expertConsultation').addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = 'experts.html';
+    });
 
-        // Гарантируем минимальную высоту для скролла
-        setTimeout(function() {
-          if (document.body.scrollHeight <= window.innerHeight) {
-            document.body.style.minHeight = (window.innerHeight + 200) + 'px';
-          }
-        }, 300);
-      });
-    </script>
+    // Обработчик для кнопки "Избранное"
+    document.getElementById('favoritesCard').addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = 'favourites.html';
+    });
+
+    // Подсветка активной вкладки в меню
+    const currentPage = window.location.pathname.split('/').pop();
+    const menuItems = document.querySelectorAll('.tab-item');
+    
+    menuItems.forEach(item => {
+      const itemPage = item.getAttribute('href').split('/').pop();
+      if (itemPage === currentPage) {
+        item.classList.add('active');
+      } else {
+        item.classList.remove('active');
+      }
+    });
+
+    // Фикс для Telegram Mini App
+    if (window.Telegram?.WebApp) {
+      Telegram.WebApp.expand();
+      Telegram.WebApp.enableClosingConfirmation();
+      
+      if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        document.documentElement.style.height = '100%';
+        document.body.style.height = '100%';
+        document.body.style.overflowY = 'scroll';
+        document.documentElement.style.overflowY = 'scroll';
+      }
+    }
+
+    // Гарантируем минимальную высоту для скролла
+    setTimeout(function() {
+      if (document.body.scrollHeight <= window.innerHeight) {
+        document.body.style.minHeight = (window.innerHeight + 200) + 'px';
+      }
+    }, 300);
+  });
+</script>
   </body>
 </html>
