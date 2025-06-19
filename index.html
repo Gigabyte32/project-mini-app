@@ -153,50 +153,59 @@
         </div>
       </div>
     </div>
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const nameInput = document.querySelector('input[type="text"]');
-        const phoneInput = document.querySelector('input[type="tel"]');
-        const consentCheckbox = document.getElementById('consent');
-        const submitButton = document.querySelector('.submit-button');
-        // Исправляем селектор (убираем 'button' в конце)
-        const skipButton = document.querySelector('.skip-button'); 
+   <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const nameInput = document.querySelector('input[type="text"]');
+    const phoneInput = document.querySelector('input[type="tel"]');
+    const consentCheckbox = document.getElementById('consent');
+    const submitButton = document.querySelector('.submit-button');
+    const skipButton = document.querySelector('.skip-button');
+    const regForm = document.getElementById('regForm');
 
-        function checkFields() {
-            const isFilled = nameInput.value.trim() !== '' && 
-                            phoneInput.value.trim() !== '' && 
-                            consentCheckbox.checked;
+    function checkFields() {
+      const isFilled = nameInput.value.trim() !== '' && 
+                      phoneInput.value.trim() !== '' && 
+                      consentCheckbox.checked;
 
-            if (isFilled) {
-                submitButton.style.backgroundColor = '#131313';
-                submitButton.style.color = '#FFFFFF';
-            } else {
-                submitButton.style.backgroundColor = '#adadad';
-                submitButton.style.color = '#545454';
-            }
-        }
-  
-          // Обработчики для полей ввода
-          nameInput.addEventListener('input', checkFields);
-          phoneInput.addEventListener('input', checkFields);
-          consentCheckbox.addEventListener('change', checkFields);
-  
-          // Обработчик отправки формы
-          document.getElementById('regForm').addEventListener('submit', function(e) {
-              e.preventDefault();
-              if (nameInput.value.trim() && 
-                  phoneInput.value.trim() && 
-                  consentCheckbox.checked) {
-                  window.location.href = 'getcode.html';
-              }
-          });
-  
-          // Обработчик для кнопки "Пропустить"
-        skipButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            window.location.href = 'alergic.html';
-        });
-      });
-  </script>
+      if (isFilled) {
+        submitButton.style.backgroundColor = '#131313';
+        submitButton.style.color = '#FFFFFF';
+      } else {
+        submitButton.style.backgroundColor = '#adadad';
+        submitButton.style.color = '#545454';
+      }
+    }
+
+    // Обработчики изменений полей
+    nameInput.addEventListener('input', checkFields);
+    phoneInput.addEventListener('input', checkFields);
+    consentCheckbox.addEventListener('change', checkFields);
+
+    // Обработчик отправки формы
+    regForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      if (nameInput.value.trim() && phoneInput.value.trim() && consentCheckbox.checked) {
+        // Сохраняем данные пользователя
+        localStorage.setItem('userName', nameInput.value.trim());
+        localStorage.setItem('userPhone', phoneInput.value.trim());
+        localStorage.setItem('userConsent', 'true');
+        window.location.href = 'getcode.html';
+      }
+    });
+
+    // Обработчик кнопки "Пропустить"
+    skipButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      // Устанавливаем данные по умолчанию
+      localStorage.setItem('userName', 'Гость');
+      localStorage.setItem('userPhone', 'Не указан');
+      localStorage.setItem('userConsent', 'false');
+      window.location.href = 'alergic.html';
+    });
+
+    // Проверяем заполненность полей при загрузке
+    checkFields();
+  });
+</script>
   </body>
 </html>
