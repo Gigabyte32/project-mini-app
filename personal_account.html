@@ -316,26 +316,64 @@
         </a>
     </nav>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-          // Получаем текущий путь страницы
-          const currentPage = window.location.pathname.split('/').pop();
+  document.addEventListener('DOMContentLoaded', function() {
+    // Проверяем, прошел ли пользователь регистрацию
+    if (!localStorage.getItem('userName')) {
+      window.location.href = 'registration.html';
+      return;
+    }
+
+    // Устанавливаем данные пользователя
+    const userName = localStorage.getItem('userName') || 'Гость';
+    const userPhone = localStorage.getItem('userPhone') || '+7 XXX XXX XX XX';
+    
+    const profileNameElement = document.querySelector('.profile__name');
+    const profilePhoneElement = document.querySelector('.profile__phone');
+    
+    if (profileNameElement) profileNameElement.textContent = userName;
+    if (profilePhoneElement) profilePhoneElement.textContent = userPhone;
+
+    // Обработчик кнопки "Изменить"
+    const editButton = document.querySelector('.profile .small-button');
+    if (editButton) {
+      editButton.addEventListener('click', function() {
+        const newName = prompt('Введите новое имя:', userName);
+        if (newName && newName.trim() !== '') {
+          localStorage.setItem('userName', newName.trim());
+          profileNameElement.textContent = newName.trim();
           
-          // Находим все элементы меню
-          const menuItems = document.querySelectorAll('.tab-item');
-          
-          // Перебираем все элементы меню
-          menuItems.forEach(item => {
-            // Получаем путь из атрибута href
-            const itemPage = item.getAttribute('href').split('/').pop();
-            
-            // Сравниваем с текущей страницей
-            if (itemPage === currentPage) {
-              item.classList.add('active');
-            } else {
-              item.classList.remove('active');
-            }
-          });
-        });
-        </script>
+          // Обновляем имя на главной странице (если она открыта)
+          if (window.opener) {
+            window.opener.updateUserName(newName.trim());
+          }
+        }
+      });
+    }
+
+    // Обработчик кнопки "Выйти"
+    const logoutButton = document.querySelector('.logout-button');
+    if (logoutButton) {
+      logoutButton.addEventListener('click', function() {
+        localStorage.removeItem('userName');
+        localStorage.removeItem('userPhone');
+        localStorage.removeItem('userConsent');
+        window.location.href = 'registration.html';
+      });
+    }
+
+    // Подсветка активной вкладки в меню
+    const currentPage = window.location.pathname.split('/').pop();
+    const menuItems = document.querySelectorAll('.tab-item');
+    
+    menuItems.forEach(item => {
+      const itemPage = item.getAttribute('href').split('/').pop();
+      if (itemPage === currentPage) {
+        item.classList.add('active');
+      } else {
+        item.classList.remove('active');
+      }
+    });
+  });
+</script>
   </body>
 </html>
